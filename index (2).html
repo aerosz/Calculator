@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price List Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Price List Manager</h1>
+    <form id="itemForm">
+        <label for="itemName">Item Name:</label>
+        <input type="text" id="itemName" required>
+        <label for="itemPrice">Price:</label>
+        <input type="number" id="itemPrice" step="0.01" required>
+        <label for="itemQuantity">Quantity:</label>
+        <input type="number" id="itemQuantity" required>
+        <label for="itemTax">Tax %:</label>
+        <input type="number" id="itemTax" step="0.01" required>
+        <button type="submit" class="btn">Add Item</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Tax %</th>
+                <th>Total (with Tax)</th>
+            </tr>
+        </thead>
+        <tbody id="itemTableBody">
+        </tbody>
+    </table>
+
+    <h3 id="summary">Subtotal: $0.00 | Total Tax: $0.00 | Grand Total: $0.00</h3>
+</body>
+<script src="script.js"></script>
+</html>
