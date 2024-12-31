@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update summary
         updateSummary();
 
-        // Reset the form fields
+        // Reset form fields
         document.getElementById('itemName').value = '';
         document.getElementById('itemPrice').value = '';
         document.getElementById('itemQuantity').value = '';
