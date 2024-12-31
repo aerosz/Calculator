@@ -1,4 +1,3 @@
-
 const form = document.getElementById('itemForm');
 const tableBody = document.getElementById('itemTableBody');
 const summary = document.getElementById('summary');
