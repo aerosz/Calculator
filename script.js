@@ -1,49 +1,56 @@
-const form = document.getElementById('itemForm');
-const tableBody = document.getElementById('itemTableBody');
-const summary = document.getElementById('summary');
+document.addEventListener('DOMContentLoaded', () => {
+    const addItemButton = document.getElementById('addItemButton');
+    const tableBody = document.getElementById('itemTableBody');
+    const summary = document.getElementById('summary');
 
-let items = [];
-let subtotal = 0;
-let totalTax = 0;
+    let subtotal = 0;
+    let totalTax = 0;
 
-const updateSummary = () => {
-    const grandTotal = subtotal + totalTax;
-    summary.textContent = `Subtotal: $${subtotal.toFixed(2)} | Total Tax: $${totalTax.toFixed(2)} | Grand Total: $${grandTotal.toFixed(2)}`;
-};
+    const updateSummary = () => {
+        const grandTotal = subtotal + totalTax;
+        summary.textContent = `Subtotal: $${subtotal.toFixed(2)} | Total Tax: $${totalTax.toFixed(2)} | Grand Total: $${grandTotal.toFixed(2)}`;
+    };
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
+    addItemButton.addEventListener('click', () => {
+        // Retrieve form data
+        const itemName = document.getElementById('itemName').value;
+        const itemPrice = parseFloat(document.getElementById('itemPrice').value);
+        const itemQuantity = parseInt(document.getElementById('itemQuantity').value);
+        const itemTax = parseFloat(document.getElementById('itemTax').value);
 
-    const itemName = document.getElementById('itemName').value;
-    const itemPrice = parseFloat(document.getElementById('itemPrice').value);
-    const itemQuantity = parseInt(document.getElementById('itemQuantity').value);
-    const itemTax = parseFloat(document.getElementById('itemTax').value);
+        // Validate inputs
+        if (!itemName || isNaN(itemPrice) || isNaN(itemQuantity) || isNaN(itemTax)) {
+            alert('Please fill in all fields correctly.');
+            return;
+        }
 
-    const itemTotalWithoutTax = itemPrice * itemQuantity;
-    const itemTaxAmount = (itemTax / 100) * itemTotalWithoutTax;
-    const itemTotalWithTax = itemTotalWithoutTax + itemTaxAmount;
+        // Calculate totals
+        const itemTotalWithoutTax = itemPrice * itemQuantity;
+        const itemTaxAmount = (itemTax / 100) * itemTotalWithoutTax;
+        const itemTotalWithTax = itemTotalWithoutTax + itemTaxAmount;
 
-    items.push({
-        name: itemName,
-        price: itemPrice,
-        quantity: itemQuantity,
-        tax: itemTax,
-        totalWithTax: itemTotalWithTax,
+        // Update overall totals
+        subtotal += itemTotalWithoutTax;
+        totalTax += itemTaxAmount;
+
+        // Add item to the table
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${itemName}</td>
+            <td>$${itemPrice.toFixed(2)}</td>
+            <td>${itemQuantity}</td>
+            <td>${itemTax.toFixed(2)}%</td>
+            <td>$${itemTotalWithTax.toFixed(2)}</td>
+        `;
+        tableBody.appendChild(row);
+
+        // Update summary
+        updateSummary();
+
+        // Reset the form fields
+        document.getElementById('itemName').value = '';
+        document.getElementById('itemPrice').value = '';
+        document.getElementById('itemQuantity').value = '';
+        document.getElementById('itemTax').value = '';
     });
-
-    subtotal += itemTotalWithoutTax;
-    totalTax += itemTaxAmount;
-
-    const row = document.createElement('tr');
-    row.innerHTML = `
-        <td>${itemName}</td>
-        <td>$${itemPrice.toFixed(2)}</td>
-        <td>${itemQuantity}</td>
-        <td>${itemTax.toFixed(2)}%</td>
-        <td>$${itemTotalWithTax.toFixed(2)}</td>
-    `;
-    tableBody.appendChild(row);
-
-    updateSummary();
-    form.reset();
 });
